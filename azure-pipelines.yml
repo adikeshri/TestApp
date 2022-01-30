@@ -7,33 +7,35 @@ trigger:
 - main
 
 
-jobs:
-  - job: "Linux"
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '15.0.0'
-      displayName: 'Install Node.js'
+stages:
+  - stage: "Build_And_Test"
+    jobs:
+      - job: "Linux"
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '15.0.0'
+          displayName: 'Install Node.js'
 
-    - script: |
-        npm install
-        npm run build
-      displayName: 'npm install and build'
-      workingDirectory: app
-      
-  - job: "WindowsLol"
-    pool:
-      vmImage: "windows-latest"
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '15.0.0'
-      displayName: 'Install Node.js'
+        - script: |
+            npm install
+            npm run build
+          displayName: 'npm install and build'
+          workingDirectory: app
+          
+      - job: "WindowsLol"
+        pool:
+          vmImage: "windows-latest"
+        steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '15.0.0'
+          displayName: 'Install Node.js'
 
-    - script: |
-        npm install
-        npm run build
-      displayName: 'npm install and build'
-      workingDirectory: app
+        - script: |
+            npm install
+            npm run build
+          displayName: 'npm install and build'
+          workingDirectory: app
