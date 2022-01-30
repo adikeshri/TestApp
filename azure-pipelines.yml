@@ -39,12 +39,29 @@ stages:
             npm run build
           displayName: 'npm install and build'
           workingDirectory: app
-  - stage: "Deploy"
+  - stage: "Deploy_TEST"
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs:
-      - job: "Linux"
+      - job:  "CD"
         pool:
           vmImage: ubuntu-latest
         steps:
-          - script: echo "Deployed"
+          - script: echo "Deployed to test"
+  - stage: "Deploy_SYST"
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: "CD"
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - script: echo "Deployed to syst"
+  
+  - stage: "Deploy_PROD"
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: "CD"
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - script: echo "Deployed to PROD"
 
